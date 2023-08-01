@@ -1,0 +1,178 @@
+---
+sidebar_position: 3
+---
+
+# Advanced Controls
+
+Advanced controls are more advanced controls that allow you to add complex values to your stories, These controls are not available in Flipbook.
+
+They can only be created with constructor functions, let's see all the available advanced controls
+
+## Choose Control
+
+Choose control is a control that allows you to choose between a set of values, it gets displayed as a dropdown menu. This control takes an array of possible values
+
+The possible values can be any [Primitive](primitives) value (`number, string, boolean, Color3`) and you can mix types but this is not recommended.
+
+```ts
+Choose(chooseList: Primitives[], defIndex?: number, widen?: boolean)
+```
+> Arguments:
+> - **chooseList**:  Array of possible values
+> - **defIndex**:  Default value index. If not given it will use the first value in the array
+> - **widen**:  *Typescript only*. If given the control type will be widened (explained later) 
+
+## EnumList Control
+
+EnumList control is similar to Choose, but this one takes a Dictionary instead of an array, working similar to Roblox Enums. The key names will be used to display a name of the value, this can be useful when the values alone dont give enough info.<br/><br/>The values must also be any [Primitive](primitives) value. You can also mix types but this is again, not recommended.
+
+A use example would be a control that takes a `Material` value. The values are just numbers, so you can't know what they mean. With Enum control you can give each number a Material name.
+
+```ts
+EnumList(enumList: {[key: string]: Primitives}, defKey: keyof enumList, widen?: boolean)
+```
+> Arguments:
+> - **enumList**:  Dictionary of possible values and their names as keys
+> - **defKey**:  Default value key. Because we cant use the first key of a dictionary, this is not optional
+> - **widen**:  *Typescript only*. If given the control type will be widened (explained later)
+
+<br/>
+
+:::info Widened Controls (*Typescript only*)
+`Choose` and `Enum` controls accept a third parameter in typescript called *widen*, this doesnt change anything on runtime, but if true is given the control value type will be the type of the values instead of the value literals
+
+Example:
+
+```ts
+   Choose(["One", "Two", "Three"], 0, false) // type: "One" | "Two" | "Three"
+   Choose(["One", "Two", "Three"], 0, true) // type: string
+
+   Choose([1, 2, 3], 0, false) // type: 1 | 2 | 3
+   Choose([1, 2, 3], 0, true) // type: number
+```
+:::
+
+## Slider Control
+
+Slider control is a control that allows you to use a number between a range, it gets displayed as a **Slider** with a number input, this control takes a `min` and `max` as the range
+
+```ts
+Slider(def: number, min: number, max: number, step?: number)
+```
+> Arguments:
+> - **def**:  Default control value
+> - **min**:  Minimum value
+> - **max**:  Maximum value
+> - **step**:  Step to increment/decrement the number, if not given the slider will be continuous
+
+
+## RGBA Control
+
+This control is similar to the Color primitive, but this one allows you to modify the transparency value of the color, it gets displayed as a color picker with a slider for the alpha value, this gets converted to transparency when used in your story
+
+The control value will be ```{Color: Color3, Transparency: number}```
+
+```ts
+RGBA(defColor: Color3, transparency: number)
+```
+> Arguments:
+> - **defColor**:  Default color value
+> - **transparency**:  Default transparency value
+
+## Example
+
+Let's use all of them in a more real context.
+
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+
+<Tabs>
+   <TabItem value="lua" label="Luau">
+
+   ```lua
+   --HelloText.story.lua
+   local Roact = require(ReplicatedStorage.Roact)
+
+   local controls = {
+      Theme = Choose({"Dark", "Light"}, 0),
+      Currency = Choose({"Coins", "Gems"}, 0),
+      ["Window Size"] = EnumList({
+         Mobile = 500,
+         Tablet = 1000,
+         Desktop = 1500,
+      }, "Mobile"),
+      ["Text Color"] = EnumList({
+         Red = Color3.new(1, 0, 0),
+         Green = Color3.new(0, 1, 0),
+         Blue = Color3.new(0, 0, 1),
+      }, "Red"),
+      Rating = Slider(3, 1, 5, 0.5), -- step is 0.5 so it can have half-stars
+      Volume = Slider(50, 0, 100, 1), -- step is 1 so it only has integer values
+      ["Frame Color"] = RGBA(Color3.new(1, 1, 1), 0) -- you will need to set BackgroundTransparency too
+   }
+
+   return {
+      summary = "This is a test story with <b>Rich text</b>.",
+      roact = Roact,
+      controls = controls,
+      story = function(props)
+         return Roact.createElement("TextLabel", {
+            Text = "Hello UI-LABS!",
+            TextColor3 = Color3.new(1, 1, 1),
+            BackgroundColor3 = Color3.new(0.3, 0.3, 0.3),
+            TextSize = 20,
+            Size = UDim2.fromOffset(300, 50),
+         })
+      end,
+   }
+   ```
+
+   </TabItem>
+   <TabItem value="ts" label="Roblox-TS">
+
+   ```ts
+   //HelloText.story.ts
+   import Roact from "@rbxts/roact";
+   import { Choose, EnumList, Slider, RGBA } from "@rbxts/ui-labs/out/ControlsUtil" //import the constructor functions
+   //we will see how to typecheck the story for controls later
+
+   const controls = {
+      Theme: Choose(["Dark", "Light"], 0),
+      Currency: Choose(["Coins", "Gems"], 0),
+      ["Window Size"]: EnumList({
+         Mobile: 500,
+         Tablet: 1000,
+         Desktop: 1500,
+      }, "Mobile"),
+      ["Text Color"]: EnumList({
+         Red: new Color3(1, 0, 0),
+         Green: new Color3(0, 1, 0),
+         Blue: new Color3(0, 0, 1),
+      }, "Red"),
+      Rating: Slider(3, 1, 5, 0.5), // step is 0.5 so it can have half-stars
+      Volume: Slider(50, 0, 100, 1), // step is 1 so it only has integer values
+      ["Frame Color"]: RGBA(new Color3(1, 1, 1), 0) // you will need to set BackgroundTransparency too
+   }
+
+   const Story = {
+      summary: "This is a test story with <b>Rich text</b>.",
+      roact: Roact,
+      controls: controls,
+      story: (props) => {
+         return Roact.createElement("TextLabel", {
+            Text: "Hello UI-LABS!",
+            TextColor3: new Color3(1, 1, 1),
+            BackgroundColor3: new Color3(0.3, 0.3, 0.3),
+            TextSize: 20,
+            Size: UDim2.fromOffset(300, 50),
+         });
+      },
+   };
+   export = Story;
+   ```
+   </TabItem>
+
+</Tabs>
+

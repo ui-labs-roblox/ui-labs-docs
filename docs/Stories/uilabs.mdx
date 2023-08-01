@@ -1,0 +1,103 @@
+---
+sidebar_position: 4
+---
+
+# UI-Labs Stories
+
+This Story is more advanced, it is mounted internally by **UI-Labs** with your **Roact** library, allowing UI-Labs to have more control over the Story
+
+This type of Story also allows you to add [Controls](../Controls/index.md) to edit the props of your Story in real-time without changing the code
+
+### Creating UI-Labs Stories
+
+In order to have support for **[Flipbook](https://flipbook-labs.github.io/flipbook/)** and make migration easier, UI-Labs uses almost the same format as Flipbook, allowing you to use flipbook _Stories_ and _Storybooks_ in UI-Labs, also supporting [Flipbook Controls](https://flipbook-labs.github.io/flipbook/docs/writing-stories#controls)
+
+> This has some key **differences**:
+>
+> - The `Roact`/`React`/`ReactRoblox` library should only be provided within the Story.
+>   It cannot be given globally in the Storybook.
+>   This limitation exists because UI-Labs would need to _Hot-Reload_ the storybook with the same `_G` global table environment. **This limitation can be solved in the future with a more advanced Hot-Reloader**.
+> - The `name` key cannot be provided within a Story, but only within a Storybook.
+>   This limitation exists because UI-Labs would need to perform a _Hot-Reload_ operation on every Story to retrieve the name and detect changes.
+>   Therefore, the Module Name will always be utilized.
+
+### Story Format
+
+This type of Story should return a **Dictionary** with the following keys inside:
+
+### Using Roact / React-Roblox
+
+| Key         | Type                                                               | Description                                                                                                                                                   |
+| ----------- | ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| story       | `Roact.Element` \| <br></br>`(props: StoryProps) => Roact.Element` | Element to Mount, can be either a Roact.Element or a **component** function that accepts props and will be passed in `Roact.createElement(story)`             |
+| roact       | `Roact?`                                                           | Your Roact library. It needs to have the functions `createElement()`, `mount()`, `unmount()` and `update()`,                                                  |
+| react       | `React?`                                                           | Your React library. It needs to have the function `createElement()`                                                                                           |
+| reactRoblox | `ReactRoblox?`                                                     | Your React-Roblox library. It needs to have the function `createRoot()`, this function should return a `Root` with the **methods** `render()` and `unmount()` |
+| name        | string?                                                            | Ignored by UI-Labs (`script.Name` is always used), included here for Flipbook compatibility                                                                   |
+| summary     | string?                                                            | Optional description of your Story. This description supports [Rich text](https://create.roblox.com/docs/ui/rich-text)                                        |
+| controls    | StoryControls?                                                     | Optional [Controls](../Controls/index.md) to see how your UI behaves with different props                                                                     |
+| cleanup     | `() => void?`                                                      | Optional cleanup function that gets executed when the Story is unmounted <br></br>**(Roact unmounting is done automatically and shouldn't be done here)**     |
+
+:::caution UI Library not Provided
+If no library is provided, UI-Labs will use it's internal's roact library (**This is not recommended**)
+:::
+
+<br></br>This is an example of a Story using Roact: <br></br>
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+   <TabItem value="lua" label="Luau">
+
+```lua
+   --HelloText.story.lua
+   local Roact = require(ReplicatedStorage.Roact)
+
+   return {
+      summary = "This is a test story with <b>Rich text</b>.",
+      story = function(props)
+         return Roact.createElement("TextLabel", {
+            Text = "Hello UI-LABS!",
+            TextColor3 = Color3.new(1, 1, 1),
+            BackgroundColor3 = Color3.new(0.3, 0.3, 0.3),
+            TextSize = 20,
+            Size = UDim2.fromOffset(300, 50),
+         })
+      end,
+      roact = Roact,
+      cleanup = function()
+         print("Im getting unmounted!")
+      end,
+   }
+```
+
+   </TabItem>
+   <TabItem value="ts" label="Roblox-TS">
+
+```ts
+//HelloText.story.ts
+import Roact from "@rbxts/roact";
+import { ObjectStory } from "@rbxts/ui-labs"; //type constraint is not enforced, but it's recommended
+
+const Story: ObjectStory = {
+  summary: "This is a test story with <b>Rich text</b>.",
+  story: (props) => {
+    return Roact.createElement("TextLabel", {
+      Text: "Hello UI-LABS!",
+      TextColor3: new Color3(1, 1, 1),
+      BackgroundColor3: new Color3(0.3, 0.3, 0.3),
+      TextSize: 20,
+      Size: UDim2.fromOffset(300, 50),
+    });
+  },
+  roact: Roact,
+  cleanup: () => {
+    print("Story is getting unmounted!");
+  },
+};
+export = Story;
+```
+
+   </TabItem>
+</Tabs>

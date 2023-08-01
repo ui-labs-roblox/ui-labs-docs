@@ -1,0 +1,206 @@
+---
+sidebar_position: 2
+---
+
+# Primitive Controls
+
+These type of controls are the most basic controls, they can be created by directly specifying the value. This is how flipbook's controls are provided.
+
+These controls are only a shorthand for the Primitive `Control Object` which we will see later. UI-Labs will automatically search for a primitive value and create the control for you. But these controls can also be created manually allowing you to configure some of them.
+
+The first specified value will be the default value.
+
+> The supported Primitives are:
+>
+> - `string`
+> - `number`
+> - `boolean`
+> - `Color3`
+
+Let's create controls with primitives
+
+
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+   <TabItem value="lua" label="Luau">
+
+   ```lua {4-9,14}
+   --HelloText.story.lua
+   local Roact = require(ReplicatedStorage.Roact)
+
+   local controls = {
+      string = "Hello UI-LABS!",
+      color = Color3.new(1, 1, 1),
+      number = 20,
+      boolean = true,
+   }
+
+   return {
+      summary = "This is a test story with <b>Rich text</b>.",
+      roact = Roact,
+      controls = controls,
+      story = function(props)
+         return Roact.createElement("TextLabel", {
+            Text = "Hello UI-LABS!",
+            TextColor3 = Color3.new(1, 1, 1),
+            BackgroundColor3 = Color3.new(0.3, 0.3, 0.3),
+            TextSize = 20,
+            Size = UDim2.fromOffset(300, 50),
+         })
+      end,
+   }
+   ```
+
+   </TabItem>
+   <TabItem value="ts" label="Roblox-TS">
+
+   ```ts {5-10,15}
+   //HelloText.story.ts
+   import Roact from "@rbxts/roact";
+   //we will see how to typecheck the story for controls later
+
+   const controls = {
+      string: "Hello UI-LABS!",
+      color: new Color3(1, 1, 1),
+      number: 20,
+      boolean: true,
+   }
+
+   const Story = {
+      summary: "This is a test story with <b>Rich text</b>.",
+      roact: Roact,
+      controls: controls,
+      story: (props) => {
+         return Roact.createElement("TextLabel", {
+            Text: "Hello UI-LABS!",
+            TextColor3: new Color3(1, 1, 1),
+            BackgroundColor3: new Color3(0.3, 0.3, 0.3),
+            TextSize: 20,
+            Size: UDim2.fromOffset(300, 50),
+         });
+      },
+   };
+   export = Story;
+   ```
+   </TabItem>
+
+</Tabs>
+
+
+### Creating Primitive Control Objects
+
+As we said earlier, primitive controls are just a shorthand. You can create them manually using the provided constructor functions, this will allow you to configure some of the controls.
+
+### Number Control
+
+```ts
+Number(def: number, clamp?: NumberRange, step?: number, dragger?: boolean, sens?: number)
+```
+> Arguments:
+> - **def**:  Default control value
+> - **clamp**:  Range to clamp the number
+> - **step**:  Step to increment/decrement the number
+> - **dragger**:  If true, this will create a drag handle so you can adjust the number with your mouse, this is disabled by default 
+> - **sens**:  Sensibility of the drag handle, if not given it will use the `def` argument as sens
+
+### String Control
+
+```ts
+String(def: string, filters?: Array<(toFilter: string, oldInput: string) => string>)
+```
+> Arguments:
+> - **def**:  Default control value
+> - **filters**:  Array of filters that changes the input, they are functions that takes the new input and the old input, and returns a filtered input, these filters are applied in order
+
+### Boolean Control
+
+```ts
+Boolean(def: boolean)
+```
+> Arguments:
+> - **def**:  Default control value
+
+### Color Control
+
+```ts
+Color(def: Color3)
+```
+> Arguments:
+> - **def**:  Default control value
+
+### Example
+
+Let's create all of them manually
+
+
+
+<Tabs>
+   <TabItem value="lua" label="Luau">
+
+   ```lua
+   --HelloText.story.lua
+   local Roact = require(ReplicatedStorage.Roact)
+
+
+   local controls = {
+      string = String("Hello UI-LABS!"),
+      color = Color(Color3.new(1, 1, 1)),
+      number = Number(20, NumberRange.new(0, 100), 1, true),
+      boolean = Boolean(true),
+   }
+
+   return {
+      summary = "This is a test story with <b>Rich text</b>.",
+      roact = Roact,
+      controls = controls,
+      story = function(props)
+         return Roact.createElement("TextLabel", {
+            Text = "Hello UI-LABS!",
+            TextColor3 = Color3.new(1, 1, 1),
+            BackgroundColor3 = Color3.new(0.3, 0.3, 0.3),
+            TextSize = 20,
+            Size = UDim2.fromOffset(300, 50),
+         })
+      end,
+   }
+   ```
+
+   </TabItem>
+   <TabItem value="ts" label="Roblox-TS">
+
+   ```ts
+   //HelloText.story.ts
+   import Roact from "@rbxts/roact";
+   import { String, Color, Number, Boolean } from "@rbxts/ui-labs/out/ControlsUtil" //import the constructor functions
+   //we will see how to typecheck the story for controls later
+
+   const controls = {
+      string: String("Hello UI-LABS!"),
+      color: Color(new Color3(1, 1, 1)),
+      number: Number(20, new NumberRange(0, 100), 1, true),
+      boolean: Boolean(true),
+   }
+
+   const Story = {
+      summary: "This is a test story with <b>Rich text</b>.",
+      roact: Roact,
+      controls: controls,
+      story: (props) => {
+         return Roact.createElement("TextLabel", {
+            Text: "Hello UI-LABS!",
+            TextColor3: new Color3(1, 1, 1),
+            BackgroundColor3: new Color3(0.3, 0.3, 0.3),
+            TextSize: 20,
+            Size: UDim2.fromOffset(300, 50),
+         });
+      },
+   };
+   export = Story;
+   ```
+   </TabItem>
+
+</Tabs>
+

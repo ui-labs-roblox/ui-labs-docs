@@ -1,0 +1,79 @@
+---
+sidebar_position: 3
+---
+
+# Function Stories
+
+These stories are the simplest and they are used by **[hoarcekat](https://www.roblox.com/library/4621580428/Hoarcekat)**.
+
+These are functions returned by the story module that UI-Labs executes passing the **Frame** where they need to be displayed, expecting them to mount the User Interface.
+
+Once executed, these functions must return another function that cleans up the UI, usually calling `Roact.unmount()`
+
+### Using Roact
+
+This is an example of how a function Story can be written with **Roact**
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+   <TabItem value="lua" label="Luau">
+
+```lua
+   --HelloText.story.lua
+   local ReplicatedStorage = game:GetService("ReplicatedStorage")
+   local Roact = require(ReplicatedStorage.Roact)
+
+   return function (target: Frame)
+      local element = Roact.createElement("TextLabel", {
+         Text = "Hello UI-LABS!",
+         TextColor3 = Color3.new(1,1,1),
+         BackgroundColor3 = Color3.new(0.3, 0.3, 0.3),
+         TextSize = 20,
+         Size = UDim2.fromOffset(300, 50),
+      })
+      local handle = Roact.mount(element, target) --We mount inside target
+
+      --We need to return another function to unmount the handle
+      return function()
+         Roact.unmount(handle)
+      end
+   end
+```
+
+   </TabItem>
+   <TabItem value="ts" label="Roblox-TS">
+
+```ts
+//HelloText.story.ts
+import Roact from "@rbxts/roact";
+
+export = (target: Frame) => {
+  const element = Roact.createElement("TextLabel", {
+    Text: "Hello UI-LABS!",
+    TextColor3: new Color3(1, 1, 1),
+    BackgroundColor3: new Color3(0.3, 0.3, 0.3),
+    TextSize: 20,
+    Size: UDim2.fromOffset(300, 50),
+  });
+  const handle = Roact.mount(element, target); //We mount inside target
+
+  //We need to return another function to unmount the handle
+  return () => {
+    Roact.unmount(handle);
+  };
+};
+```
+
+   </TabItem>
+</Tabs>
+
+:::info Fusion Support
+UI-Labs currently does not support [Fusion](https://elttob.uk/Fusion/0.2/) natively, therefore, this is the only way you can visualize a Fusion story.
+However, native support for Fusion is planned in further updates
+:::
+
+:::danger Story Erroring
+The clean up function will not be executed if the returned function errors. If this happens, a **Studio restart** may be needed to avoid memory leaks and non-destroyed Instances
+:::
