@@ -12,14 +12,14 @@ const config = {
    favicon: 'img/uilabs.ico',
 
    // Set the production url of your site here
-   url: 'https://ui-labs-roblox.github.io',
+   url: 'https://ui-labs-roblox.github.io/',
    // Set the /<baseUrl>/ pathname under which your site is served
    // For GitHub pages deployment, it is often '/<projectName>/'
    baseUrl: '/ui-labs-docs',
 
    // GitHub pages deployment config.
    // If you aren't using GitHub pages, you don't need these.
-   organizationName: 'PepeElToro41', // Usually your GitHub org/user name.
+   organizationName: 'ui-labs-roblox', // Usually your GitHub org/user name.
    projectName: 'ui-labs-docs', // Usually your repo name.
 
    onBrokenLinks: 'throw',
