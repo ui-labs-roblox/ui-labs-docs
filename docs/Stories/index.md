@@ -4,10 +4,9 @@ sidebar_position: 2
 
 # Creating Stories
 
-Creating stories is simple. Stories are **ModuleScripts** that tell UI-Labs how to render a UI
+Creating stories is simple. Stories are **ModuleScripts** that tell UI Labs how to render your UI.
 
-In order for UI-Labs to recognize these **ModuleScripts**, they must have a name that ends with .story
-
+In order for UI Labs to recognize these **ModuleScripts** their names need to end with .story
 
 ### Writing Stories
 

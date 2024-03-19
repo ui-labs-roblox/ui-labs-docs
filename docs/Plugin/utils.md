@@ -1,81 +1,46 @@
 ---
-sidebar_position: 4
+sidebar_position: 5
 ---
 
-# Extra Tools
+# Extra Features
 
-UI-Labs also Provides some tools when visualizing your Interface.
+Addionally, let's view some other useful features/options that UI Labs has.
 
-Currently, UI-Labs only has the **Measure tool** so, let's learn how to use it
+---
 
-## Measure tool
+### View On Explorer
 
-The measure tool can help us to check the size of a Portion of your UI while you are visualizing it
+You can view the Instances tree of your story by pressing "View On Explorer".<br></br> _It's not recommended to change these instances_
 
-Click the Measure tool to activate it
+![ViewOnExplorer](viewonexplorer.png) ![Explorer](explorer.png)
 
-![MeasureTool](measuretool.png)
+---
 
-Once activated, you can click and drag to measure a Portion of your UI. Let's measure our Text
+### Mounting in Widget
 
-![MeasureTool](measuretext.png)
+You can use a separated widget window for your stories. This enables fullscreen mode, distraction-free GUIs, plugin-like visualization, and multi-monitor setups. Right click your story and choose **Mount In Widget**
 
-Now we can know that our text frame has a size of 300x50 pixels, so if we return to our [Story script](../Stories/function#using-roact) we can see that it is accurate
+![WidgetMount](widgetmount.png)
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+You can switch between **Widget/Editor** mode by clicking your story preview and selecting **Mount In Editor/Mount In Widget**
 
-<Tabs>
-   <TabItem value="lua" label="Luau">
+![MountInEditor](mountineditor.png) ![MountInWidget](mountinwidget.png)
 
-```lua {11}
-   --HelloText.story.lua
-   local ReplicatedStorage = game:GetService("ReplicatedStorage")
-   local Roact = require(ReplicatedStorage.Roact)
+---
 
-   return function (target: Frame)
-      local element = Roact.createElement("TextLabel", {
-         Text = "Hello UI-LABS!",
-         TextColor3 = Color3.new(1,1,1),
-         BackgroundColor3 = Color3.new(0.3, 0.3, 0.3),
-         TextSize = 20,
-         Size = UDim2.fromOffset(300, 50),
-      })
-      local handle = Roact.mount(element, target) --We mount inside target
+### Hiding Stories
 
-      --We need to return another function to unmount the handle
-      return function()
-         Roact.unmount(handle)
-      end
-   end
-```
+You can hide stories when you have multiple of them mounted. This disables the `Visible` property.
+For this you can right click your story and choose **Hide**. You can show it again by clicking **Un-Hide**
 
-   </TabItem>
-   <TabItem value="ts" label="Roblox-TS">
+![Hide](hide.png) ![Unhide](unhide.png)
 
-```ts
-//HelloText.story.ts
-import Roact from "@rbxts/roact";
+---
 
-export = (target: Frame) => {
-  const element = Roact.createElement("TextLabel", {
-    Text: "Hello UI-LABS!",
-    TextColor3: new Color3(1, 1, 1),
-    BackgroundColor3: new Color3(0.3, 0.3, 0.3),
-    TextSize: 20,
-    // highlight-next-line
-    Size: UDim2.fromOffset(300, 50),
-  });
-  const handle = Roact.mount(element, target); //We mount inside target
+### Creating Snapshots
 
-  //We need to return another function to unmount the handle
-  return () => {
-    Roact.unmount(handle);
-  };
-};
-```
+You can create a snapshot of the current state of your story. This clones all instances of your story and adds them in a separated `ScreenGui` inside `StarterGui`.<br></br>
 
-   </TabItem>
-</Tabs>
+Keep in mind that this only clones the instances, so no code will be running here
 
-This size is not affected by zoom
+![CreateSnapshot](createsnapshot.png) ![Snapshot](snapshot.png)
