@@ -84,10 +84,12 @@ However, native support for Fusion is planned in a future
 :::danger Story Erroring
 The cleanup function cant be executed if the mounting function errors. If the story did mount, a **Studio restart** may be needed to avoid memory leaks and non-destroyed Instances
 
+UI Labs will warn you about this
+
 ```lua
 return function(target)
    local newElement = Roact.createElement("TextLabel", {})
-   local handle = Roact.mount(newElement, target) --Roact did mount so unmounting is necessary
+   local handle = Roact.mount(newElement, target) --Roact mounted so unmounting is necessary
 
    error("Erroring on purpose") --This error will prevent the cleanup function from being returned
    return function()

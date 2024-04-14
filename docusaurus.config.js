@@ -74,6 +74,11 @@ const config = {
                   href: 'https://create.roblox.com/marketplace/asset/14293316215/UI-Labs',
                   label: 'Plugin',
                   position: 'left',
+               },
+               {
+                  href: 'https://github.com/PepeElToro41/ui-labs',
+                  label: 'Github', 
+                  position: 'left',
                }
             ],
          },

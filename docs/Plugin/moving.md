@@ -11,7 +11,7 @@ but it's not centered and it's too small so lets fix that.
 
 You can move your canvas by holding middle mouse and dragging the view.
 
-![MovingView](storyvisualize2.png)
+![MovingView](img/storyvisualize2.png)
 
 Great!, but now it's too small so, what can we do about it?.
 
@@ -21,11 +21,11 @@ Great!, but now it's too small so, what can we do about it?.
 
 You can zoom in and out with the magnifying glasses at the side toolbar. Make your text bigger by clicking them.
 
-![Zooming](zoom.png)
+![Zooming](img/zoom.png)
 
 You can also hold **Shift** and move the scroll wheel up/down to zoom without using the buttons.
 
-![StoryVisualize2](storyvisualize3.png)
+![StoryVisualize2](img/storyvisualize3.png)
 
 Nice! now we can see our text nicely.
 
@@ -35,7 +35,7 @@ Nice! now we can see our text nicely.
 
 You can reset both the Zoom and Padding by right clicking your story preview and selecting **Reset Position/Zoom**
 
-![ResetPosition](resetposition.png)
+![ResetPosition](img/resetposition.png)
 
 :::caution Scaling Different Interfaces
 UI Labs uses [UIScale](https://create.roblox.com/docs/reference/engine/classes/UIScale) to zoom in/out. Depending on your setup and/or Roblox limitations, zooming might give unexpected results.

@@ -4,7 +4,7 @@ sidebar_position: 3
 
 # Advanced Controls
 
-Advanced controls are controls that allow you to add complex values to your stories, These controls are not available in Flipbook.
+Advanced controls allow you to add complex values to your stories, These controls are not available in Flipbook.
 
 They can only be created with constructor functions, let's see all the available advanced controls
 
@@ -109,23 +109,24 @@ import TabItem from "@theme/TabItem";
 ```lua
 --HelloText.story.lua
 local Roact = require(ReplicatedStorage.Roact)
+local UILabs = require(ReplicatedStorage.UILabs)
 
 local controls = {
-   Theme = Choose({"Dark", "Light"}, 0),
-   Currency = Choose({"Coins", "Gems"}, 0),
-   ["Window Size"] = EnumList({
+   Theme = UILabs.Choose({"Dark", "Light"}),
+   Currency = UILabs.Choose({"Coins", "Gems"}),
+   ["Window Size"] = UILabs.EnumList({
       Mobile = 500,
       Tablet = 1000,
       Desktop = 1500,
    }, "Mobile"),
-   ["Text Color"] = EnumList({
+   ["Text Color"] = UILabs.EnumList({
       Red = Color3.new(1, 0, 0),
       Green = Color3.new(0, 1, 0),
       Blue = Color3.new(0, 0, 1),
    }, "Red"),
-   Rating = Slider(3, 1, 5, 0.5), -- step is 0.5 so it can have half-stars
-   Volume = Slider(50, 0, 100, 1), -- step is 1 so it only has integer values
-   ["Frame Color"] = RGBA(Color3.new(1, 1, 1), 0) -- you will need to set BackgroundTransparency too
+   Rating = UILabs.Slider(3, 1, 5, 0.5), -- step is 0.5 so it can have half-stars
+   Volume = UILabs.Slider(50, 0, 100, 1), -- step is 1 so it only has integer values
+   ["Frame Color"] = UILabs.RGBA(Color3.new(1, 1, 1), 0) -- you will need to set BackgroundTransparency too
 }
 
 return {
@@ -150,13 +151,12 @@ return {
 ```ts
 //HelloText.story.ts
 import Roact from "@rbxts/roact";
-import { Choose, EnumList, Slider, RGBA } from "@rbxts/ui-labs"; //import the constructor functions
+import { Choose, EnumList, Slider, RGBA } from "@rbxts/ui-labs";
 
 //we will see how to typecheck the story for controls later
-
 const controls = {
-   Theme: Choose(["Dark", "Light"], 0),
-   Currency: Choose(["Coins", "Gems"], 0),
+   Theme: Choose(["Dark", "Light"]),
+   Currency: Choose(["Coins", "Gems"]), 
    ["Window Size"]: EnumList(
       {
          Mobile: 500,
@@ -183,13 +183,13 @@ const Story = {
    roact: Roact,
    controls: controls,
    story: (props) => {
-      return Roact.createElement("TextLabel", {
-         Text: "Hello UI LABS!",
-         TextColor3: new Color3(1, 1, 1),
-         BackgroundColor3: new Color3(0.3, 0.3, 0.3),
-         TextSize: 20,
-         Size: UDim2.fromOffset(300, 50),
-      });
+      return <textlabel
+         Text={"Hello UI LABS!"},
+         TextColor3={new Color3(1, 1, 1)},
+         BackgroundColor3={new Color3(0.3, 0.3, 0.3)},
+         TextSize={20},
+         Size={UDim2.fromOffset(300, 50)},
+      />
    },
 };
 export = Story;

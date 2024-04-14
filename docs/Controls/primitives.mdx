@@ -55,12 +55,11 @@ return {
    </TabItem>
    <TabItem value="ts" label="Roblox-TS">
 
-```ts {6-10,15}
-//HelloText.story.ts
+```tsx {5-10,15}
+//HelloText.story.tsx
 import Roact from "@rbxts/roact";
 
 //we will see how to typecheck the story for controls later
-
 const controls = {
    string: "Hello UI LABS!",
    color: new Color3(1, 1, 1),
@@ -73,13 +72,13 @@ const Story = {
    roact: Roact,
    controls: controls,
    story: (props) => {
-      return Roact.createElement("TextLabel", {
-         Text: "Hello UI LABS!",
-         TextColor3: new Color3(1, 1, 1),
-         BackgroundColor3: new Color3(0.3, 0.3, 0.3),
-         TextSize: 20,
-         Size: UDim2.fromOffset(300, 50),
-      });
+      return <textlabel
+         Text={"Hello UI LABS!"},
+         TextColor3={new Color3(1, 1, 1)},
+         BackgroundColor3={new Color3(0.3, 0.3, 0.3)},
+         TextSize={20},
+         Size={UDim2.fromOffset(300, 50)},
+      />
    },
 };
 export = Story;
@@ -106,8 +105,8 @@ Number(def: number, min?: number, max?: number, step?: number, dragger?: boolean
 > Arguments:
 >
 > -  **def**: Default control value
-> -  **min**: Min accepted value `(def: -inf)`
-> -  **max**: Max accepted value `(def: inf)`
+> -  **min**: Min accepted value `(default: -inf)`
+> -  **max**: Max accepted value `(default: inf)`
 > -  **step**: Step to increment/decrement the number
 > -  **dragger**: If true, this will create a drag handle so you can adjust the number with your mouse, this is enabled by default
 > -  **sens**: Sensibility of the drag handle, the `def` argument will be used as default
@@ -156,18 +155,19 @@ Datatype.Color3(def: Color3)
 Let's create all of them manually
 
 <Tabs>
-   <TabItem value="lua" label="Luau">
+<TabItem value="lua" label="Luau">
 
 ```lua
 local Roact = require(ReplicatedStorage.Roact)
-
+local UILabs = require(ReplicatedStorage.UILabs) -- Path of your utilities package
+local Datatype = UILabs.Datatype
 
 local controls = {
-   string = String("Hello UI LABS!"),
+   string = UILabs.String("Hello UI LABS!"),
    --Color3 is inside "Datatype" this is to avoid name collisions
    color = Datatype.Color3(Color3.new(1, 1, 1)),
-   number = Number(20, 0, 100, 1, true),
-   boolean = Boolean(true),
+   number = UILabs.Number(20, 0, 100, 1, true),
+   boolean = UILabs.Boolean(true),
 }
 
 return {
@@ -186,40 +186,37 @@ return {
 }
 ```
 
-   </TabItem>
-   <TabItem value="ts" label="Roblox-TS">
+</TabItem>
+<TabItem value="ts" label="Roblox-TS">
 
-```ts
+```tsx
 import Roact from "@rbxts/roact";
 import { String, Number, Boolean, Datatype } from "@rbxts/ui-labs"; //import the constructor functions
 
 //we will see how to typecheck the story for controls later
-
 const controls = {
    string: String("Hello UI LABS!"),
    //Color3 is inside "Datatype" this is to avoid name collisions
    color: Datatype.Color3(new Color3(1, 1, 1)),
    number: Number(20, 0, 100, 1, true),
    boolean: Boolean(true),
-};
+}; 
 
 const Story = {
    summary: "This is a test story with <b>Rich text</b>.",
    roact: Roact,
    controls: controls,
    story: (props) => {
-      return Roact.createElement("TextLabel", {
-         Text: "Hello UI LABS!",
-         TextColor3: new Color3(1, 1, 1),
-         BackgroundColor3: new Color3(0.3, 0.3, 0.3),
-         TextSize: 20,
-         Size: UDim2.fromOffset(300, 50),
-      });
+      return <textlabel
+         Text={"Hello UI LABS!"},
+         TextColor3={new Color3(1, 1, 1)},
+         BackgroundColor3={new Color3(0.3, 0.3, 0.3)},
+         TextSize={20},
+         Size={UDim2.fromOffset(300, 50)},
+      /> 
    },
 };
 export = Story;
 ```
-
-   </TabItem>
-
+</TabItem> 
 </Tabs>

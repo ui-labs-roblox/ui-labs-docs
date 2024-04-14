@@ -55,6 +55,7 @@ This also typechecks your `Roact/React` library and what the `story` function re
 This function is only for typing, it's returning the same story table under the hood so it's not neccessary, but the recommended way of doing it.
 
 ```tsx
+import Roact from "@rbxts/roact";
 import { CreateRoactStory, Number, RGBA } from "@rbxts/ui-labs";
 
 const controls = {

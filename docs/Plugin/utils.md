@@ -12,7 +12,7 @@ Addionally, let's view some other useful features/options that UI Labs has.
 
 You can view the Instances tree of your story by pressing "View On Explorer".<br></br> _It's not recommended to change these instances_
 
-![ViewOnExplorer](viewonexplorer.png) ![Explorer](explorer.png)
+![ViewOnExplorer](img/viewonexplorer.png) ![Explorer](img/explorer.png)
 
 ---
 
@@ -20,11 +20,19 @@ You can view the Instances tree of your story by pressing "View On Explorer".<br
 
 You can use a separated widget window for your stories. This enables fullscreen mode, distraction-free GUIs, plugin-like visualization, and multi-monitor setups. Right click your story and choose **Mount In Widget**
 
-![WidgetMount](widgetmount.png)
+![WidgetMount](img/widgetmount.png)
 
 You can switch between **Widget/Editor** mode by clicking your story preview and selecting **Mount In Editor/Mount In Widget**
 
-![MountInEditor](mountineditor.png) ![MountInWidget](mountinwidget.png)
+![MountInEditor](img/mountineditor.png) ![MountInWidget](img/mountinwidget.png)
+
+---
+
+### Auto-Reloading
+
+By default, UI Labs will detect any changes on the scripts you have required and automatically reload the story, however you can turn this off. <br></br>
+
+This allows you to do things like comparing before/after by mounting the story twice and turning Auto-Reloading off in one of them
 
 ---
 
@@ -33,7 +41,7 @@ You can switch between **Widget/Editor** mode by clicking your story preview and
 You can hide stories when you have multiple of them mounted. This disables the `Visible` property.
 For this you can right click your story and choose **Hide**. You can show it again by clicking **Un-Hide**
 
-![Hide](hide.png) ![Unhide](unhide.png)
+![Hide](img/hide.png) ![Unhide](img/unhide.png)
 
 ---
 
@@ -43,4 +51,4 @@ You can create a snapshot of the current state of your story. This clones all in
 
 Keep in mind that this only clones the instances, so no code will be running here
 
-![CreateSnapshot](createsnapshot.png) ![Snapshot](snapshot.png)
+![CreateSnapshot](img/createsnapshot.png) ![Snapshot](img/snapshot.png)

@@ -34,7 +34,7 @@ A storybook should return a dictionary with the following keys:
 | storyRoots  | `Instance[]`   | Array of Instances where UI Labs will search for stories. Any subfolder will create a subfolder in<br></br> UI Labs too.                             |
 | groupRoots  | boolean?       | If true, UI Labs will also create Subfolders for each Instance inside the `storyRoots` array, or if an entry is a story this will display the Story. |
 
-In this case, let's imagine we have this folder structure:
+In this case, let's suppose you have this folder structure:
 
 ```text title="File structure"
 ServerScriptService
@@ -46,7 +46,7 @@ ServerScriptService
     └─ OtherStory2.story (ModuleScript)
 ```
 
-Let's create a storybook for our Stories.
+Let's create a storybook for your Stories.
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -56,21 +56,25 @@ import TabItem from "@theme/TabItem";
 
 ```lua
 --MyStorybook.story.lua
-return {
+local book = {
    name = "Stories",
    storyRoots = {
       game.ServerScriptService.GameStories,
       game.ServerScriptService.OtherStories,
    },
 }
+
+return book
 ```
 
    </TabItem>
    <TabItem value="ts" label="Roblox-TS">
 
 ```ts
-//MyStorybook.story.lua
-const returnBook = {
+//MyStorybook.story.ts
+import { Storybook } from "@rbxts/ui-labs" //Typing is not needed
+
+const book: Storybook = {
    name: "Stories",
    storyRoots: [
       //You might need to typecheck the children first
@@ -78,8 +82,8 @@ const returnBook = {
       game.ServerScriptService.OtherStories,
    ],
 };
-
-export = returnBook;
+ 
+export = book;
 ```
 
    </TabItem>
@@ -87,7 +91,7 @@ export = returnBook;
 
 We can now see our stories grouped in our Storybook!
 
-![Storybook](storybook.png)
+![Storybook](img/storybook.png)
 
 ## Grouping Roots
 
@@ -98,8 +102,8 @@ We can do that by setting the `groupRoots` key to true.
 <Tabs>
    <TabItem value="lua" label="Luau">
 
-```lua {8}
---MyStorybook.story.lua
+```lua {8} 
+--MyStorybook.storybook.lua
 return {
    name = "Stories",
    storyRoots = {
@@ -113,8 +117,8 @@ return {
    </TabItem>
    <TabItem value="ts" label="Roblox-TS">
 
-```ts {9}
-//MyStorybook.story.lua
+```ts {9} 
+//MyStorybook.storybook.ts
 const returnBook = {
    name: "Stories",
    storyRoots: [
@@ -133,7 +137,7 @@ export = returnBook;
 
 Now we have our stories nice and organized!
 
-![StorybookGroup](storybookgrouped.png)
+![StorybookGroup](img/storybookgrouped.png)
 
 Setting `groupRoots` to true also allows you to provide our stories directly in the `storyRoots` array, this will label all our stories in your Storybook Folder
 
@@ -141,7 +145,7 @@ Setting `groupRoots` to true also allows you to provide our stories directly in 
    <TabItem value="lua" label="Luau">
 
 ```lua {4}
---MyStorybook.story.lua
+--MyStorybook.storybook.lua
 return {
    name = "Stories",
    storyRoots = game.ServerScriptService.GameStories:GetChildren(),
@@ -153,7 +157,7 @@ return {
    <TabItem value="ts" label="Roblox-TS">
 
 ```ts {4}
-//MyStorybook.story.lua
+//MyStorybook.storybook.ts
 const returnBook = {
    name: "Stories",
    storyRoots: game.ServerScriptService.GameStories.GetChildren(),
