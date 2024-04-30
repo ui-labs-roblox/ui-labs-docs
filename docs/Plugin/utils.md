@@ -32,7 +32,10 @@ You can switch between **Widget/Editor** mode by clicking your story preview and
 
 By default, UI Labs will detect any changes on the scripts you have required and automatically reload the story, however you can turn this off. <br></br>
 
-This allows you to do things like comparing before/after by mounting the story twice and turning Auto-Reloading off in one of them
+This allows you to do things like comparing before/after by mounting the story twice and toggling Auto-Reloading off in one of them.<br></br>
+For this, right click your story and toggle **Auto-Reload**
+
+![MountInEditor](img/autoreload.png)
 
 ---
 

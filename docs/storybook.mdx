@@ -32,7 +32,7 @@ A storybook should return a dictionary with the following keys:
 | react       | `React?`       | Ignored by UI Labs, specify it in your story instead, included here for Flipbook compatibility.                                                      |
 | reactRoblox | `ReactRoblox?` | Ignored by UI Labs, specify it in your story instead, included here for Flipbook compatibility.                                                      |
 | storyRoots  | `Instance[]`   | Array of Instances where UI Labs will search for stories. Any subfolder will create a subfolder in<br></br> UI Labs too.                             |
-| groupRoots  | boolean?       | If true, UI Labs will also create Subfolders for each Instance inside the `storyRoots` array, or if an entry is a story this will display the Story. |
+| groupRoots  | boolean?       | If true, UI Labs will also create Subfolders for each Instance inside the `storyRoots` array, or if an entry is a story this will display it. |
 
 In this case, let's suppose you have this folder structure:
 
@@ -139,8 +139,8 @@ Now we have our stories nice and organized!
 
 ![StorybookGroup](img/storybookgrouped.png)
 
-Setting `groupRoots` to true also allows you to provide our stories directly in the `storyRoots` array, this will label all our stories in your Storybook Folder
-
+Setting `groupRoots` to true also allows you to provide our stories directly in the `storyRoots` array, this will add all your stories in your Storybook Folder
+ 
 <Tabs>
    <TabItem value="lua" label="Luau">
 
