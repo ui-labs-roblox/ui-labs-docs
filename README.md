@@ -1,3 +1,3 @@
 # Docs for UI Labs!
 
-Any contributions are greatly appreciated it!
+This documentation is old, the url will redirect to the new docs
