@@ -2,34 +2,37 @@
 sidebar_position: 7
 ---
 
-# Enviroment
+# Environment
 
 UI Labs **Hot-Reloader** uses a combination of `loadstring` and `setfenv` to modify the current story enviroment, this is used to replace the `require` function, the `script` global, and the `_G` table.
 
 This is needed to allow isolation and avoid module `require` caching, but additionally, UI Labs injects some functions that can be useful inside the enviroment
 
-Because the whole story enviroment is virtually reloaded, those functions can be accessed from anywhere in your story using the `Enviroment` utilities inside the UI Labs package
+Because the whole story enviroment is virtually reloaded, those functions can be accessed from anywhere in your story using the `Environment` utilities inside the UI Labs package
 
----
+<br/><br/>
 
-### `Enviroment.IsStory(): boolean`
+### `Environment.IsStory(): boolean`
 
-**Checks if the enviroment is a story**. Returns true if it's running inside of a Story enviroment.<br></br><br></br>
-It's recommended to check this before using any Enviroment function, however most functions default to an empty function and it's safe to call them in non-story enviroments
+**Checks if the enviroment is a story** <br/>
+Returns true if it's running inside of a Story enviroment.<br></br><br></br>
+It's recommended to check this before using any Environment function, however most functions default to an empty function and it's safe to call them in non-story enviroments
 
----
+<br/><br/>
 
-### `Enviroment.Unmount()`
+### `Environment.Unmount()`
 
-**Unmounts the story**. This is useful in cases where a close button cant be used, or when the story should no longer keep running
+**Unmounts the story** <br/>
+This is useful in cases where a close button cant be used, or when the story should no longer keep running
 
 > _Defaults to an empty function for non-story enviroments_
 
----
+<br/><br/>
 
-### `Enviroment.Reload()`
+### `Environment.Reload()`
 
-**Reloads the story Hot-Reloader**. This is useful if you wanna force a reload when something changed, or can be an alternative to `Enviroment.Unmount`
+**Reloads the story Hot-Reloader** <br/>
+This is useful if you wanna force a reload when something changed, or can be an alternative to `Environment.Unmount`
 
 :::warning Warning
 This has the potential to cause an infinite loop.
@@ -37,29 +40,44 @@ This has the potential to cause an infinite loop.
 
 > _Defaults to an empty function for non-story enviroments_
 
----
+<br/><br/>
 
-### `Enviroment.CreateSnapshot(name?: string)`
+### `Environment.CreateSnapshot(name?: string)`
 
-**Creates a Snapshot**. This does the same [Create Snapshot](../Plugin/utils.md#creating-snapshots) button does. Useful for cloning the UI state automatically.<br></br>
+**Creates a Snapshot** <br/>
+This does the same [Create Snapshot](../Plugin/utils.md#creating-snapshots) button does. Useful for cloning the UI state automatically.<br></br>
 An optional `name` can be given for the created `ScreenGui` (defaults to the story name).
 
 > _Defaults to an empty function for non-story enviroments_
 
----
+<br/><br/>
 
-### `Enviroment.GetJanitor(): Janitor`
+### `Environment.SetStoryHolder(holder?: Instance)`
 
-**Gives you a story Janitor**. This gives you a [Janitor](https://howmanysmall.github.io/Janitor/) object that gets destroyed when the story is Unmounted/Reloaded.<br></br>
+**Replaces what the [View On Explorer](../Plugin/utils.md#view-on-explorer) button selects** <br/>
+This changes what the [View On Explorer](../Plugin/utils.md#view-on-explorer) button selects when clicked.
+Useful when the story does not use the provided target frame (like using React Portals), or when the story is not a UI (eg. a model)
+
+Calling this function without a value will reset the story holder to the target frame
+
+> _Defaults to an empty function for non-story enviroments_
+
+<br/><br/>
+
+### `Environment.GetJanitor(): Janitor`
+
+**Gives you a story Janitor** <br/>
+This gives you a [Janitor](https://howmanysmall.github.io/Janitor/) object that gets destroyed when the story is Unmounted/Reloaded.<br></br>
 Useful for cleaning things up globally without necessarily having to access the cleanup functions
 
-> _This function will return `nil` for non-story enviroments but it's typed as if it doesnt for convenience_
+> _This function will return `nil` for non-story enviroments_
 
----
+<br/><br/>
 
-### `Enviroment.InputListener: InputSignals`
+### `Environment.InputListener: InputSignals`
 
-**Gives you a UserInputService mock**. This is useful when listening for inputs as `UserInputService` will not work inside _Plugin Widgets_<br></br>
+**Gives you a UserInputService mock** <br/>
+This is useful when listening for inputs as `UserInputService` will not work inside _Plugin Widgets_<br></br>
 
 the typing for this object is as follows:
 
@@ -72,37 +90,50 @@ type InputSignals = {
 };
 ```
 
+> _Defaults to `nil` for non-story enviroments_
+
+<br/><br/>
+
+### `Environment.UserInput: UserInputService`
+
+**Same as `Environment.InputListener`** <br/>
+The difference between this and `Environment.InputListener` is that this is typed as `UserInputService` and will default to it, as well as any missing methods/properties will fall back to `UserInputService`.
+
 > _Defaults to `UserInputService` non-story enviroments_
 
----
+<br/><br/>
 
-### `Enviroment.EnviromentUID` _string_
+### `Environment.EnvironmentUID` _string_
 
-**Enviroment `GUID`**. This gives you a `HttpService` GUID for the enviroment, changing everytime the story gets reloaded
+**Environment `GUID`** <br/>
+This gives you a `HttpService` GUID for the enviroment, changing everytime the story gets reloaded
 
-> _Defaults to an empty string for non-story enviroments_
+> _Defaults to ``nil` for non-story enviroments_
 
----
+<br/><br/>
 
-### `Enviroment.PreviewUID` _string_
+### `Environment.PreviewUID` _string_
 
-**Preview `GUID`**. This gives you a `HttpService` GUID for the story preview, changing everytime the story is mounted, but staying the same between reloads
+**Preview `GUID`**<br/>
+This gives you a `HttpService` GUID for the story preview, changing everytime the story is mounted, but staying the same between reloads
 
-> _Defaults to an empty string for non-story enviroments_
+> _Defaults to `nil` for non-story enviroments_
 
----
+<br/><br/>
 
-### `Enviroment.OriginalG` _table_
+### `Environment.OriginalG` _table_
 
-**Original `_G`**. Holds the original `_G` table. Can be used to leave the sandboxed enviroment
+**Original `_G`** <br/>
+Holds the original `_G` table. Can be used to leave the sandboxed enviroment
 
 > _Defaults to the current \_G table for non-story enviroments_
 
----
+<br/><br/>
 
-### `Enviroment.PluginWidget` _DockWidgetPluginGui_
+### `Environment.PluginWidget` _DockWidgetPluginGui_
 
-**Plugin Widget Window**. This is the widget where the plugin is mounted. `Sounds` will only be played in Edit Mode if they are parented on a widget gui, so this is useful in this case.<br></br>
+**Plugin Widget Window** <br/>
+This is the widget where the plugin is mounted. `Sounds` will only be played in Edit Mode if they are parented on a widget gui, so this is useful in this case.<br></br>
 
 :::info
 It is safe to parent Instances inside the Widget without affecting the plugin or getting destroyed. however you dont wanna touch the `App` frame
@@ -110,7 +141,7 @@ It is safe to parent Instances inside the Widget without affecting the plugin or
 
 > _Defaults to nil for non-story enviroments_
 
----
+<br/><br/>
 
 ## Summary
 
@@ -123,29 +154,30 @@ import TabItem from "@theme/TabItem";
 ```lua
 -- Can be used from any script
 local UILabs = require(ReplicatedStorage.UILabs)
-local Enviroment = UILabs.Enviroment
+local Environment = UILabs.Environment
 
 if(Environment.IsStory()) then
    ---- [[ Variables ]] ----
-   print(Environment.EnviromentUID)
+   print(Environment.EnvironmentUID)
    print(Environment.PreviewUID)
    print(Environment.OriginalG)
    print(Environment.PluginWidget)
 
    ---- [[ Functions ]] ----
-   Enviroment.Reload()
-   Enviroment.Unmount()
-   Enviroment.CreateSnapshot("MySnapshot")
+   Environment.Reload()
+   Environment.Unmount()
+   Environment.CreateSnapshot("MySnapshot")
+   Environment.SetStoryHolder(game.Workspace.Baseplate)
 
    ---- [[ Janitor ]] ----
-   local janitor = Enviroment.GetJanitor()
+   local janitor = Environment.GetJanitor()
    janitor:Add(Instance.new("Part"))
    janitor:Add(game:GetService("RunService").Heartbeat:Connect(function()
       print("Heartbeat")
    end))
 
    ---- [[ InputListener ]] ----
-   local inputListener = Enviroment.InputListener
+   local inputListener = Environment.InputListener
    inputListener.InputBegan:Connect(function(input, gameProcessed)
       print("Input Began", input, gameProcessed)
    end)
@@ -162,29 +194,30 @@ end
 
 ```ts
 // Can be used from any script
-import { Enviroment } from "@rbxts/ui-labs"
+import { Environment } from "@rbxts/ui-labs"
 
 if(Environment.IsStory()) {
-   //**** [[ Variables ]] ****//
-   print(Environment.EnviromentUID)
+   /* ------- Variables ------ */
+   print(Environment.EnvironmentUID)
    print(Environment.PreviewUID)
    print(Environment.OriginalG)
    print(Environment.PluginWidget)
 
-   //**** [[ Functions ]] ****//
-   Enviroment.Reload()
-   Enviroment.Unmount()
-   Enviroment.CreateSnapshot("MySnapshot")
+   /* ------- Functions ------ */
+   Environment.Reload()
+   Environment.Unmount()
+   Environment.CreateSnapshot("MySnapshot")
+   Environment.SetStoryHolder(game.Workspace.Baseplate)
 
-   //**** [[ Janitor ]] ****//
-   const janitor = Enviroment.GetJanitor()
+   /* ------- Janitor ------ */
+   const janitor = Environment.GetJanitor()
    janitor.Add(new Instance("Part"))
    janitor.Add(RunService.Heartbeat.Connect(() => {
       print("Heartbeat")
    }))
 
-   //**** [[ InputListener ]] ****//
-   const inputListener = Enviroment.InputListener
+   /* ------- InputListener ------ */
+   const inputListener = Environment.InputListener
    inputListener.InputBegan:Connect((input, gameProcessed) => {
       print("Input Began", input, gameProcessed)
    })
